@@ -466,35 +466,15 @@ body {
     background: #eee;
 }
 
-.calendar-day {
-    aspect-ratio: 1;
-    background: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    position: relative;
-}
-
-.calendar-day:hover {
-    background: var(--bg-light);
-}
-
-.calendar-day.available {
-    background: #e8f5e8;
-}
-
-.calendar-day.booked {
-    background: #ffe8e8;
-    color: #888;
-}
-
-.calendar-day.festival {
-    background: var(--accent-color);
-    color: var(--white);
+.calendar-day-header {
+    padding: 1rem;
+    text-align: center;
     font-weight: bold;
+    background: #f5f5f5;
+    color: var(--text-dark);
 }
+
+/* Merged with calendar page styles below */
 
 .calendar-legend {
     display: flex;
@@ -526,6 +506,143 @@ body {
 
 .legend-color.festival {
     background: var(--accent-color);
+}
+
+/* Calendar Page Specific Styles */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.calendar-table th {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.calendar-table td {
+    width: 14.28%;
+    height: 80px;
+    vertical-align: top;
+    border: 1px solid #eee;
+    position: relative;
+}
+
+.calendar-day {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    aspect-ratio: 1;
+    background: var(--white);
+}
+
+.calendar-day:hover {
+    background: var(--bg-light);
+}
+
+.calendar-day.available {
+    background: #e8f5e8;
+}
+
+.calendar-day.available:hover {
+    background: #d4f4d4;
+}
+
+.calendar-day.booked {
+    background: #ffe8e8;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.calendar-day.festival {
+    background: var(--accent-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.calendar-day.other-month {
+    color: #ccc;
+    background: #f9f9f9;
+}
+
+.calendar-day.today {
+    background: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.day-number {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.day-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.indicator-available {
+    background: #28a745;
+}
+
+.indicator-booked {
+    background: #dc3545;
+}
+
+.indicator-festival {
+    background: var(--accent-color);
+}
+
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.month-year {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 .calendar-cta {

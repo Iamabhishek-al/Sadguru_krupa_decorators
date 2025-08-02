@@ -59,56 +59,62 @@ galleryBtns.forEach(btn => {
 });
 
 // Calendar Functionality - Homepage Calendar
-const calendar = document.getElementById('calendar');
-const currentMonthElement = document.getElementById('currentMonth');
-const prevMonthBtn = document.getElementById('prevMonth');
-const nextMonthBtn = document.getElementById('nextMonth');
-
-const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-];
-
-const maharashtrianFestivals = {
-    2024: {
-        0: [14, 26], // January - Makar Sankranti, Republic Day
-        1: [19], // February - Chhatrapati Shivaji Maharaj Jayanti
-        2: [8, 13, 25], // March - Holi, etc.
-        3: [9, 14, 21], // April - Ram Navami, Ambedkar Jayanti, Hanuman Jayanti
-        7: [15, 19, 26], // August - Independence Day, Janmashtami, Ganesh Chaturthi
-        8: [7, 15, 17], // September - Ganesh Visarjan, Anant Chaturdashi
-        9: [2, 12, 24, 31], // October - Gandhi Jayanti, Dussehra, Karva Chauth, Diwali
-        10: [7, 15], // November - Bhai Dooj, Guru Nanak Jayanti
-    }
-};
-
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
-
-// Sample booked dates (in practice, this would come from a backend)
-const bookedDates = {
-    2024: {
-        0: [15, 28], // January
-        1: [14, 25], // February
-        2: [10, 22], // March
-        3: [5, 18], // April
-        4: [12, 29], // May
-        5: [8, 20], // June
-        6: [15, 27], // July
-        7: [10, 22], // August
-        8: [5, 18], // September
-        9: [12, 28], // October
-        10: [8, 24], // November
-        11: [15, 30], // December
-    }
-};
-
-function generateCalendar(month, year) {
-    // Only generate if calendar element exists (for homepage)
-    if (!calendar || !currentMonthElement) {
+function initializeHomepageCalendar() {
+    const calendar = document.getElementById('homepage-calendar');
+    const currentMonthElement = document.getElementById('currentMonth');
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    
+    // Only proceed if this is the homepage with calendar elements
+    if (!calendar || !currentMonthElement || !prevMonthBtn || !nextMonthBtn) {
+        console.log('Homepage calendar elements not found - skipping homepage calendar initialization');
         return;
     }
+    
+    console.log('Initializing homepage calendar...');
+
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const maharashtrianFestivals = {
+        2024: {
+            0: [14, 26], // January - Makar Sankranti, Republic Day
+            1: [19], // February - Chhatrapati Shivaji Maharaj Jayanti
+            2: [8, 13, 25], // March - Holi, etc.
+            3: [9, 14, 21], // April - Ram Navami, Ambedkar Jayanti, Hanuman Jayanti
+            7: [15, 19, 26], // August - Independence Day, Janmashtami, Ganesh Chaturthi
+            8: [7, 15, 17], // September - Ganesh Visarjan, Anant Chaturdashi
+            9: [2, 12, 24, 31], // October - Gandhi Jayanti, Dussehra, Karva Chauth, Diwali
+            10: [7, 15], // November - Bhai Dooj, Guru Nanak Jayanti
+        }
+    };
+
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    // Sample booked dates (in practice, this would come from a backend)
+    const bookedDates = {
+        2024: {
+            0: [15, 28], // January
+            1: [14, 25], // February
+            2: [10, 22], // March
+            3: [5, 18], // April
+            4: [12, 29], // May
+            5: [8, 20], // June
+            6: [15, 27], // July
+            7: [10, 22], // August
+            8: [5, 18], // September
+            9: [12, 28], // October
+            10: [8, 24], // November
+            11: [15, 30], // December
+        }
+    };
+
+    function generateCalendar(month, year) {
+        console.log(`Generating homepage calendar for ${months[month]} ${year}`);
     
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -173,11 +179,11 @@ function generateCalendar(month, year) {
         calendar.appendChild(dayElement);
     }
     
-    currentMonthElement.textContent = `${months[month]} ${year}`;
-}
+        currentMonthElement.textContent = `${months[month]} ${year}`;
+        console.log(`Homepage calendar generated successfully for ${months[month]} ${year}`);
+    }
 
-// Calendar navigation - only add if buttons exist
-if (prevMonthBtn) {
+    // Calendar navigation
     prevMonthBtn.addEventListener('click', () => {
         currentMonth--;
         if (currentMonth < 0) {
@@ -186,9 +192,7 @@ if (prevMonthBtn) {
         }
         generateCalendar(currentMonth, currentYear);
     });
-}
 
-if (nextMonthBtn) {
     nextMonthBtn.addEventListener('click', () => {
         currentMonth++;
         if (currentMonth > 11) {
@@ -197,6 +201,10 @@ if (nextMonthBtn) {
         }
         generateCalendar(currentMonth, currentYear);
     });
+    
+    // Initialize calendar
+    generateCalendar(currentMonth, currentYear);
+    console.log('Homepage calendar initialized successfully');
 }
 
 // Contact Form Handling
@@ -260,9 +268,8 @@ window.addEventListener('scroll', () => {
 
 // Initialize calendar on page load - only for homepage
 document.addEventListener('DOMContentLoaded', () => {
-    if (calendar && currentMonthElement) {
-        generateCalendar(currentMonth, currentYear);
-    }
+    console.log('DOMContentLoaded: Attempting to initialize homepage calendar...');
+    initializeHomepageCalendar();
     
     // Add fade-in class to elements for scroll animation
     const animatedElements = document.querySelectorAll('.service-card, .gallery-item, .contact-content');

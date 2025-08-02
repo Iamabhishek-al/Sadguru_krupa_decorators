@@ -1,0 +1,39 @@
+{
+  "name": "shri-sadguru-kripa-decorators",
+  "version": "1.0.0",
+  "description": "Professional website for श्री सद्गुरू कृपा डेकोरेटर्स - Decoration and Event Management in Maharashtra",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve .",
+    "dev": "npx live-server .",
+    "deploy": "echo 'Upload all files to your hosting provider'"
+  },
+  "keywords": [
+    "wedding-decoration",
+    "event-management", 
+    "maharashtra",
+    "mandap-setup",
+    "dj-sound",
+    "wedding-lights",
+    "stage-decor",
+    "flower-decoration",
+    "tent-setup"
+  ],
+  "author": "श्री सद्गुरू कृपा डेकोरेटर्स",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/shri-sadguru-kripa-decorators.git"
+  },
+  "homepage": "https://yourusername.github.io/shri-sadguru-kripa-decorators",
+  "contact": {
+    "phone": "+91 9869373313",
+    "whatsapp": "https://wa.me/919869373313",
+    "business": "श्री सद्गुरू कृपा डेकोरेटर्स"
+  }
+}

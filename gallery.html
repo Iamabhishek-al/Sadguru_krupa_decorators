@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - श्री सद्गुरू कृपा डेकोरेटर्स</title>
+    <meta name="description" content="View our stunning decoration portfolio - weddings, festivals, corporate events and more.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Marathi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gallery-hero {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 120px 20px 80px;
+            text-align: center;
+        }
+        
+        .gallery-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .extended-gallery {
+            padding: 80px 0;
+            background: var(--white);
+        }
+        
+        .gallery-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .gallery-masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .gallery-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-card-content {
+            padding: 1.5rem;
+        }
+        
+        .gallery-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .gallery-card p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: var(--bg-light);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .video-gallery {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .video-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 3rem;
+        }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 2rem;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 2001;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>श्री सद्गुरू कृपा डेकोरेटर्स</h1>
+                    <p>Professional Event Decorators</p>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Gallery Hero -->
+    <section class="gallery-hero">
+        <div class="container">
+            <h1>Our Portfolio</h1>
+            <p>Showcasing our finest decoration work across Maharashtra</p>
+        </div>
+    </section>
+
+    <!-- Extended Gallery -->
+    <section class="extended-gallery">
+        <div class="container">
+            <h2 class="section-title">Photo Gallery</h2>
+            
+            <div class="gallery-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="weddings">Weddings</button>
+                <button class="category-btn" data-category="festivals">Festivals</button>
+                <button class="category-btn" data-category="corporate">Corporate</button>
+                <button class="category-btn" data-category="mandap">Mandap</button>
+                <button class="category-btn" data-category="stage">Stage Decor</button>
+                <button class="category-btn" data-category="lights">Lighting</button>
+            </div>
+
+            <div class="gallery-masonry" id="galleryMasonry">
+                <!-- Wedding Gallery Items -->
+                <div class="gallery-card" data-category="weddings mandap">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop" alt="Traditional Mandap">
+                    <div class="gallery-card-content">
+                        <h3>Traditional Wedding Mandap</h3>
+                        <p>Elegant traditional mandap with marigold decorations and intricate patterns</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Wedding</span>
+                            <span class="tag">Mandap</span>
+                            <span class="tag">Traditional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="weddings stage">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop" alt="Reception Stage">
+                    <div class="gallery-card-content">
+                        <h3>Grand Reception Stage</h3>
+                        <p>Luxurious reception stage with golden drapes and floral arrangements</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Wedding</span>
+                            <span class="tag">Reception</span>
+                            <span class="tag">Stage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="festivals">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop" alt="Ganpati Decoration">
+                    <div class="gallery-card-content">
+                        <h3>Ganpati Festival Decor</h3>
+                        <p>Vibrant Ganpati decoration with traditional colors and patterns</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Festival</span>
+                            <span class="tag">Ganpati</span>
+                            <span class="tag">Traditional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="weddings lights">
+                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=300&fit=crop" alt="Mehendi Decoration">
+                    <div class="gallery-card-content">
+                        <h3>Mehendi Ceremony Lights</h3>
+                        <p>Beautiful lighting setup for mehendi ceremony with warm ambiance</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Mehendi</span>
+                            <span class="tag">Lighting</span>
+                            <span class="tag">Decoration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="corporate">
+                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop" alt="Corporate Event">
+                    <div class="gallery-card-content">
+                        <h3>Corporate Event Setup</h3>
+                        <p>Professional corporate event decoration with modern design elements</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Corporate</span>
+                            <span class="tag">Modern</span>
+                            <span class="tag">Professional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="festivals">
+                    <img src="https://images.unsplash.com/photo-1578761499019-d2101d1609c4?w=400&h=300&fit=crop" alt="Diwali Decoration">
+                    <div class="gallery-card-content">
+                        <h3>Diwali Festival Lights</h3>
+                        <p>Spectacular Diwali decoration with traditional diyas and modern LED lights</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Diwali</span>
+                            <span class="tag">Festival</span>
+                            <span class="tag">Lights</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Gallery Items -->
+                <div class="gallery-card" data-category="weddings stage">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?w=400&h=300&fit=crop" alt="Garden Wedding">
+                    <div class="gallery-card-content">
+                        <h3>Garden Wedding Setup</h3>
+                        <p>Outdoor garden wedding with floral arches and fairy lights</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Garden</span>
+                            <span class="tag">Outdoor</span>
+                            <span class="tag">Floral</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="weddings mandap">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0701ba2fe65?w=400&h=300&fit=crop" alt="Royal Mandap">
+                    <div class="gallery-card-content">
+                        <h3>Royal Palace Mandap</h3>
+                        <p>Majestic mandap design inspired by Maharashtrian royal architecture</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Royal</span>
+                            <span class="tag">Traditional</span>
+                            <span class="tag">Mandap</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-category="festivals">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Navratri Decoration">
+                    <div class="gallery-card-content">
+                        <h3>Navratri Garba Setup</h3>
+                        <p>Colorful Navratri decoration with traditional motifs and vibrant colors</p>
+                        <div class="gallery-tags">
+                            <span class="tag">Navratri</span>
+                            <span class="tag">Garba</span>
+                            <span class="tag">Colorful</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Gallery -->
+    <section class="video-gallery">
+        <div class="container">
+            <h2 class="section-title">Video Gallery</h2>
+            <p style="text-align: center; margin-bottom: 3rem; color: var(--text-light);">
+                Watch our decoration setups come to life
+            </p>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="gallery-card-content">
+                        <h3>Wedding Mandap Setup Timelapse</h3>
+                        <p>Watch our team create a stunning traditional mandap from start to finish</p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="gallery-card-content">
+                        <h3>Ganpati Decoration Process</h3>
+                        <p>Behind the scenes of our Ganpati festival decoration setup</p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="gallery-card-content">
+                        <h3>Reception Stage Lighting</h3>
+                        <p>See how our lighting transforms a simple stage into a magical setting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="padding: 80px 0; background: var(--gradient-primary); text-align: center; color: var(--white);">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Create Your Dream Event?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                Let's discuss your decoration needs and bring your vision to life
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https://wa.me/919869373313?text=Hello! I saw your gallery and would like to discuss my event decoration needs." class="cta-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                </a>
+                <a href="tel:+919869373313" class="cta-call">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close">&times;</span>
+            <span class="lightbox-nav lightbox-prev">&#8249;</span>
+            <img id="lightbox-img" src="" alt="">
+            <span class="lightbox-nav lightbox-next">&#8250;</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>श्री सद्गुरू कृपा डेकोरेटर्स</h3>
+                    <p>Making your special moments unforgettable with our professional decoration services.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/919869373313" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="tel:+919869373313"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="mandap-setup.html">Mandap Setup</a></li>
+                        <li><a href="dj-sound.html">DJ & Sound</a></li>
+                        <li><a href="wedding-lights.html">Wedding Lights</a></li>
+                        <li><a href="stage-decor.html">Stage Decor</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="calendar.html">Calendar</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> +91 98693 73313</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Maharashtra, India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 श्री सद्गुरू कृपा डेकोरेटर्स. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Gallery filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const galleryCards = document.querySelectorAll('.gallery-card');
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.getAttribute('data-category');
+                
+                galleryCards.forEach(card => {
+                    const cardCategories = card.getAttribute('data-category');
+                    if (category === 'all' || cardCategories.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+        
+        let currentImageIndex = 0;
+        let visibleImages = [];
+
+        function updateVisibleImages() {
+            visibleImages = Array.from(document.querySelectorAll('.gallery-card:not([style*="none"]) img'));
+        }
+
+        function openLightbox(imgSrc, index) {
+            updateVisibleImages();
+            currentImageIndex = index;
+            lightboxImg.src = imgSrc;
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % visibleImages.length;
+            lightboxImg.src = visibleImages[currentImageIndex].src;
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + visibleImages.length) % visibleImages.length;
+            lightboxImg.src = visibleImages[currentImageIndex].src;
+        }
+
+        // Add click events to gallery images
+        galleryCards.forEach((card, index) => {
+            const img = card.querySelector('img');
+            img.addEventListener('click', () => {
+                const visibleCards = Array.from(document.querySelectorAll('.gallery-card:not([style*="none"])'));
+                const imgIndex = visibleCards.indexOf(card);
+                openLightbox(img.src, imgIndex);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', showNextImage);
+        lightboxPrev.addEventListener('click', showPrevImage);
+
+        // Close lightbox on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'block') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') showNextImage();
+                if (e.key === 'ArrowLeft') showPrevImage();
+            }
+        });
+    </script>
+</body>
+</html>

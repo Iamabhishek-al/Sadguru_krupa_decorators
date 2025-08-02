@@ -58,7 +58,7 @@ galleryBtns.forEach(btn => {
     });
 });
 
-// Calendar Functionality
+// Calendar Functionality - Homepage Calendar
 const calendar = document.getElementById('calendar');
 const currentMonthElement = document.getElementById('currentMonth');
 const prevMonthBtn = document.getElementById('prevMonth');
@@ -105,6 +105,11 @@ const bookedDates = {
 };
 
 function generateCalendar(month, year) {
+    // Only generate if calendar element exists (for homepage)
+    if (!calendar || !currentMonthElement) {
+        return;
+    }
+    
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
@@ -171,24 +176,28 @@ function generateCalendar(month, year) {
     currentMonthElement.textContent = `${months[month]} ${year}`;
 }
 
-// Calendar navigation
-prevMonthBtn.addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+// Calendar navigation - only add if buttons exist
+if (prevMonthBtn) {
+    prevMonthBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
 
-nextMonthBtn.addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+if (nextMonthBtn) {
+    nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
 
 // Contact Form Handling
 const contactForm = document.getElementById('contactForm');
@@ -249,9 +258,11 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Initialize calendar on page load
+// Initialize calendar on page load - only for homepage
 document.addEventListener('DOMContentLoaded', () => {
-    generateCalendar(currentMonth, currentYear);
+    if (calendar && currentMonthElement) {
+        generateCalendar(currentMonth, currentYear);
+    }
     
     // Add fade-in class to elements for scroll animation
     const animatedElements = document.querySelectorAll('.service-card, .gallery-item, .contact-content');

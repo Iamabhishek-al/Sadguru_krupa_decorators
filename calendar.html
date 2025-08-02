@@ -559,13 +559,19 @@
 
     <script src="script.js"></script>
     <script>
-        // Calendar variables
+        // Calendar variables - check if elements exist
         const monthYearElement = document.getElementById('monthYear');
         const calendarBody = document.getElementById('calendarBody');
         const prevYearBtn = document.getElementById('prevYear');
         const nextYearBtn = document.getElementById('nextYear');
         const prevMonthBtn = document.getElementById('prevMonth');
         const nextMonthBtn = document.getElementById('nextMonth');
+
+        // Only proceed if calendar elements exist
+        if (!monthYearElement || !calendarBody || !prevYearBtn || !nextYearBtn || !prevMonthBtn || !nextMonthBtn) {
+            console.log('Calendar elements not found');
+            return;
+        }
 
         const months = [
             'January', 'February', 'March', 'April', 'May', 'June',
@@ -721,7 +727,9 @@
 
         // Initialize calendar
         document.addEventListener('DOMContentLoaded', () => {
-            generateFullCalendar(currentMonth, currentYear);
+            if (monthYearElement && calendarBody) {
+                generateFullCalendar(currentMonth, currentYear);
+            }
         });
     </script>
 </body>

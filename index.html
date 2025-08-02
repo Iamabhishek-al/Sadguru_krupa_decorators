@@ -201,11 +201,11 @@
             <h2 class="section-title">Event Calendar & Availability</h2>
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <button id="prevMonth" class="calendar-nav">&lt;</button>
-                    <h3 id="currentMonth">January 2024</h3>
-                    <button id="nextMonth" class="calendar-nav">&gt;</button>
+                    <button id="eventPrevMonth" class="calendar-nav">&lt;</button>
+                    <h3 id="eventCurrentMonth"></h3>
+                    <button id="eventNextMonth" class="calendar-nav">&gt;</button>
                 </div>
-                <div id="calendar" class="calendar-grid"></div>
+                <div id="eventCalendar" class="calendar-grid"></div>
                 <div class="calendar-legend">
                     <div class="legend-item">
                         <span class="legend-color available"></span>
@@ -220,12 +220,9 @@
                         <span>Festival</span>
                     </div>
                 </div>
-            </div>
-            <div class="calendar-cta">
-                <a href="calendar.html" class="btn-primary">View Full Calendar</a>
-                <a href="https://wa.me/919869373313?text=Hello! I would like to check availability for my event." class="cta-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Check Availability
-                </a>
+                <div id="festivalListContainer" class="festival-list-container">
+                    <!-- Festival list will be rendered here -->
+                </div>
             </div>
         </div>
     </section>

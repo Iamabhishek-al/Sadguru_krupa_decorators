@@ -59,60 +59,52 @@ galleryBtns.forEach(btn => {
 });
 
 // Calendar Functionality
-const calendar = document.getElementById('calendar');
-const currentMonthElement = document.getElementById('currentMonth');
-const prevMonthBtn = document.getElementById('prevMonth');
-const nextMonthBtn = document.getElementById('nextMonth');
 
-const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-];
-
-const maharashtrianFestivals = {
-    2024: {
-        0: [14, 26], // January - Makar Sankranti, Republic Day
-        1: [19], // February - Chhatrapati Shivaji Maharaj Jayanti
-        2: [8, 13, 25], // March - Holi, etc.
-        3: [9, 14, 21], // April - Ram Navami, Ambedkar Jayanti, Hanuman Jayanti
-        7: [15, 19, 26], // August - Independence Day, Janmashtami, Ganesh Chaturthi
-        8: [7, 15, 17], // September - Ganesh Visarjan, Anant Chaturdashi
-        9: [2, 12, 24, 31], // October - Gandhi Jayanti, Dussehra, Karva Chauth, Diwali
-        10: [7, 15], // November - Bhai Dooj, Guru Nanak Jayanti
-    }
-};
-
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
-
-// Sample booked dates (in practice, this would come from a backend)
-const bookedDates = {
-    2024: {
-        0: [15, 28], // January
-        1: [14, 25], // February
-        2: [10, 22], // March
-        3: [5, 18], // April
-        4: [12, 29], // May
-        5: [8, 20], // June
-        6: [15, 27], // July
-        7: [10, 22], // August
+// Simple Calendar Widget
+// Event Calendar with Availability & Festivals
+const eventBookedDates = {
+    2025: {
+        7: [2, 10, 15, 22], // August (0-based)
         8: [5, 18], // September
         9: [12, 28], // October
-        10: [8, 24], // November
-        11: [15, 30], // December
     }
 };
-
-function generateCalendar(month, year) {
+const maharashtrianFestivals = {
+    2025: {
+        7: [
+            { day: 15, name: 'Independence Day', img: 'https://cdn-icons-png.flaticon.com/512/330/330176.png' },
+            { day: 19, name: 'Janmashtami', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998611.png' },
+            { day: 26, name: 'Ganesh Chaturthi', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998612.png' }
+        ],
+        8: [
+            { day: 7, name: 'Ganesh Visarjan', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998612.png' },
+            { day: 15, name: 'Anant Chaturdashi', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998612.png' },
+            { day: 17, name: 'Other Festival', img: 'https://cdn-icons-png.flaticon.com/512/2721/2721087.png' }
+        ],
+        9: [
+            { day: 2, name: 'Gandhi Jayanti', img: 'https://cdn-icons-png.flaticon.com/512/330/330176.png' },
+            { day: 12, name: 'Dussehra', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998613.png' },
+            { day: 24, name: 'Karva Chauth', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998614.png' },
+            { day: 31, name: 'Diwali', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998615.png' }
+        ],
+        10: [
+            { day: 7, name: 'Bhai Dooj', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998616.png' },
+            { day: 15, name: 'Guru Nanak Jayanti', img: 'https://cdn-icons-png.flaticon.com/512/1998/1998617.png' }
+        ]
+    }
+};
+function renderEventCalendar(month, year) {
+    const calendarGrid = document.getElementById('eventCalendar');
+    const currentMonthLabel = document.getElementById('eventCurrentMonth');
+    const today = new Date();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-    
-    calendar.innerHTML = '';
-    
-    // Add day headers
+    const startDay = firstDay.getDay();
+    const daysInMonth = lastDay.getDate();
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    calendarGrid.innerHTML = '';
+    // Day headers
     const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     dayHeaders.forEach(day => {
         const dayHeader = document.createElement('div');
@@ -122,72 +114,98 @@ function generateCalendar(month, year) {
         dayHeader.style.background = '#f5f5f5';
         dayHeader.style.padding = '1rem';
         dayHeader.style.textAlign = 'center';
-        calendar.appendChild(dayHeader);
+        calendarGrid.appendChild(dayHeader);
     });
-    
-    // Generate calendar days
-    for (let i = 0; i < 42; i++) {
-        const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i);
-        
-        const dayElement = document.createElement('div');
-        dayElement.className = 'calendar-day';
-        dayElement.textContent = date.getDate();
-        
-        // Check if date is in current month
-        if (date.getMonth() !== month) {
-            dayElement.style.opacity = '0.3';
-        }
-        
-        // Check if date is booked
-        const dateKey = date.getDate();
-        if (bookedDates[year] && bookedDates[year][month] && 
-            bookedDates[year][month].includes(dateKey) && date.getMonth() === month) {
-            dayElement.classList.add('booked');
-        }
-        // Check if date is a festival
-        else if (maharashtrianFestivals[year] && maharashtrianFestivals[year][month] && 
-                 maharashtrianFestivals[year][month].includes(dateKey) && date.getMonth() === month) {
-            dayElement.classList.add('festival');
-        }
-        // Mark as available if in current month and not booked/festival
-        else if (date.getMonth() === month && date >= new Date()) {
-            dayElement.classList.add('available');
-        }
-        
-        // Add click event for available dates
-        if (dayElement.classList.contains('available')) {
-            dayElement.addEventListener('click', () => {
-                const dateStr = `${date.getDate()}/${month + 1}/${year}`;
-                const message = `Hello! I would like to check availability for ${dateStr}.`;
-                const whatsappUrl = `https://wa.me/919869373313?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-            });
-        }
-        
-        calendar.appendChild(dayElement);
+    // Empty days before first
+    for (let i = 0; i < startDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day outside-month';
+        calendarGrid.appendChild(emptyCell);
     }
-    
-    currentMonthElement.textContent = `${months[month]} ${year}`;
+    // Days of month
+    let festivalDays = [];
+    if (maharashtrianFestivals[year] && maharashtrianFestivals[year][month]) {
+        festivalDays = maharashtrianFestivals[year][month].map(f => f.day);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'calendar-day';
+        dayCell.textContent = d;
+        // Highlight today
+        if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+            dayCell.style.background = '#FFD700';
+            dayCell.style.color = '#8B0000';
+            dayCell.style.fontWeight = 'bold';
+            dayCell.title = 'Today';
+        }
+        // Booked
+        if (eventBookedDates[year] && eventBookedDates[year][month] && eventBookedDates[year][month].includes(d)) {
+            dayCell.classList.add('booked');
+            dayCell.title = 'Booked';
+        }
+        // Festival
+        if (festivalDays.includes(d)) {
+            dayCell.classList.add('festival');
+            const fest = maharashtrianFestivals[year][month].find(f => f.day === d);
+            if (fest) dayCell.title = fest.name;
+        }
+        // Available (not booked/festival, not past)
+        if (!dayCell.classList.contains('booked') && !dayCell.classList.contains('festival') && (year > today.getFullYear() || (year === today.getFullYear() && (month > today.getMonth() || (month === today.getMonth() && d >= today.getDate()))))) {
+            dayCell.classList.add('available');
+            dayCell.title = 'Available';
+        }
+        calendarGrid.appendChild(dayCell);
+    }
+    // Empty days after last
+    const totalCells = startDay + daysInMonth;
+    for (let i = totalCells; i < 42; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day outside-month';
+        calendarGrid.appendChild(emptyCell);
+    }
+    currentMonthLabel.textContent = `${months[month]} ${year}`;
+    // Render festival list below calendar
+    const festListContainer = document.getElementById('festivalListContainer');
+    festListContainer.innerHTML = '';
+    if (maharashtrianFestivals[year] && maharashtrianFestivals[year][month] && maharashtrianFestivals[year][month].length > 0) {
+        const festList = document.createElement('ul');
+        festList.className = 'festival-list';
+        maharashtrianFestivals[year][month].forEach(fest => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class=\"legend-color festival\" style=\"margin-right:8px;\"></span> 
+                <strong>${fest.day}</strong>: ${fest.name}
+            `;
+            festList.appendChild(li);
+        });
+        festListContainer.appendChild(festList);
+    } else {
+        festListContainer.innerHTML = '<div class=\"festival-list-empty\">No highlighted festivals this month.</div>';
+    }
 }
-
-// Calendar navigation
-prevMonthBtn.addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
+let eventCurrentDate = new Date();
+let eventMonth = eventCurrentDate.getMonth();
+let eventYear = eventCurrentDate.getFullYear();
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('eventCalendar')) {
+        renderEventCalendar(eventMonth, eventYear);
+        document.getElementById('eventPrevMonth').onclick = function() {
+            eventMonth--;
+            if (eventMonth < 0) {
+                eventMonth = 11;
+                eventYear--;
+            }
+            renderEventCalendar(eventMonth, eventYear);
+        };
+        document.getElementById('eventNextMonth').onclick = function() {
+            eventMonth++;
+            if (eventMonth > 11) {
+                eventMonth = 0;
+                eventYear++;
+            }
+            renderEventCalendar(eventMonth, eventYear);
+        };
     }
-    generateCalendar(currentMonth, currentYear);
-});
-
-nextMonthBtn.addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar(currentMonth, currentYear);
 });
 
 // Contact Form Handling
